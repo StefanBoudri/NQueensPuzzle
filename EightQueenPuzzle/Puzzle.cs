@@ -5,33 +5,37 @@ public class Puzzle
     public Puzzle(int n)
     {
         int[,] chessBoard = new int[n, n];
-        SolutionFinder(n, chessBoard);
+        SolutionFinder(n, chessBoard, 0);
     }
 
-    private static void SolutionFinder(int n, int[,] chessBoard)
+    private static bool SolutionFinder(int n, int[,] chessBoard, int row)
     {
-        int totalPlacedQueens = 0;
-        for (int row = 0; row < n; row++)
+        if (row == n)
         {
-            for (int col = 0; col < n; col++)
+            for (int i = 0; i < n; i++)
             {
-                if (IsSafe(chessBoard, row, col, n))
+                for (int j = 0; j < n; j++)
                 {
-                    chessBoard[row, col] = 1;
-                    totalPlacedQueens++;
+                    Console.Write(chessBoard[i, j] + " ");
                 }
+                Console.WriteLine();
             }
+            return true;
         }
 
         for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n; j++)
+            if (IsSafe(chessBoard, row, i, n))
             {
-                Console.Write(chessBoard[i, j] + " ");
+                chessBoard[row, i] = 1;
+                if (SolutionFinder(n, chessBoard, row + 1))
+                {
+                    return true;
+                }
+                chessBoard[row, i] = 0;
             }
-                Console.WriteLine();
         }
-
+        return false;
     }
 
     private static bool IsSafe(int[,] chessBoard, int row, int col, int n)
@@ -63,25 +67,7 @@ public class Puzzle
             }
         }
 
-        //check for queen diagonally (lower left)
-        for (int x = row, y = col; x < n && y >= 0; x++, y--)
-        {
-            if (chessBoard[x, y] == 1)
-            {
-                return false;
-            }
-        }
-
         // Check for queen diagonally (upper right)
-        for (int x = row, y = col; x >= 0 && y < n; x--, y++)
-        {
-            if (chessBoard[x, y] == 1)
-            {
-                return false;
-            }
-        }
-
-        // Check for queen diagonally (lower right)
         for (int x = row, y = col; x >= 0 && y < n; x--, y++)
         {
             if (chessBoard[x, y] == 1)

@@ -5,37 +5,30 @@ public class Puzzle
     public Puzzle(int n)
     {
         int[,] chessBoard = new int[n, n];
-        SolutionFinder(n, chessBoard, 0);
+        int totalSolutions = SolutionFinder(n, chessBoard, 0);
+        Console.WriteLine(totalSolutions);
     }
 
-    private static bool SolutionFinder(int n, int[,] chessBoard, int row)
+    private static int SolutionFinder(int n, int[,] chessBoard, int row)
     {
+        int count = 0;
+        // Checks there are n queens placed. If so the board will be printed in the console.
         if (row == n)
         {
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    Console.Write(chessBoard[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-            return true;
+            return 1;
         }
 
+        // Checking for safe places and if there aren't any it uses backtracking
         for (int i = 0; i < n; i++)
         {
             if (IsSafe(chessBoard, row, i, n))
             {
                 chessBoard[row, i] = 1;
-                if (SolutionFinder(n, chessBoard, row + 1))
-                {
-                    return true;
-                }
+                count += SolutionFinder(n, chessBoard, row + 1);
                 chessBoard[row, i] = 0;
             }
         }
-        return false;
+        return count;
     }
 
     private static bool IsSafe(int[,] chessBoard, int row, int col, int n)

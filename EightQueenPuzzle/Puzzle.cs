@@ -12,9 +12,11 @@ public class Puzzle
     private static int SolutionFinder(int n, int[,] chessBoard, int row)
     {
         int count = 0;
-        // Checks there are n queens placed. If so the board will be printed in the console.
+        // Checks there are n queens placed. If so adds 1 to the overall count.
         if (row == n)
         {
+            //PrintBoard(n, chessBoard);
+            //Console.WriteLine("\n");
             return 1;
         }
 
@@ -70,5 +72,17 @@ public class Puzzle
         }
 
         return true;
+    }
+
+    static private void PrintBoard(int n, int[,] chessBoard)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                Console.Write(chessBoard[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
     }
 }
